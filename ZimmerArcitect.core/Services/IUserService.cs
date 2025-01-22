@@ -9,10 +9,10 @@ namespace ZimmerArcitect.core.Services
 {
     public interface IUserService
     {
-        List<User> GetAll();
-        User GetOne(int id);
-        bool Add(User user);
+       Task< List<User>> GetAllAsync();
+       Task< User >GetOneAsync(int id);
+       Task< bool >AddAsync(User user);
         bool update(int id, User value);
-        void Remove(int id);
+       Task<bool> RemoveAsync(int id);
     }
 }

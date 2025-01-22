@@ -19,23 +19,23 @@ namespace ZimmerArcitect.API.Controllers
 
         // GET: api/<ZimmerController>
         [HttpGet]
-        public IEnumerable<DtoZimmer> Get()
+        public async Task< IEnumerable<DtoZimmer>> Get()
         {
-            return _zimmerService.GetAll();
+            return await _zimmerService.GetAllAsync();
         }
 
         // GET api/<ZimmerController>/5
         [HttpGet("{id}")]
-        public DtoZimmer Get(int id)
+        public async Task< DtoZimmer> Get(int id)
         {
-            return _zimmerService.GetOne(id);
+            return await _zimmerService.GetOneAsync(id);
         }
 
         // POST api/<ZimmerController>
         [HttpPost]
-        public bool Post([FromBody] DtoZimmer value)
+        public async Task< bool> Post([FromBody] DtoZimmer value)
         {
-            _zimmerService.Add(value);
+            await _zimmerService.AddAsync(value);
             return true;
         }
 
@@ -49,9 +49,9 @@ namespace ZimmerArcitect.API.Controllers
 
         // DELETE api/<ZimmerController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            _zimmerService.Remove(id);
+           return await _zimmerService.RemoveAsync(id);
             //return true;
         }
     }

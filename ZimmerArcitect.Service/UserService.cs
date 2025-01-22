@@ -16,17 +16,17 @@ namespace ZimmerArcitect.Service
         {
             _userRepository = userRepository;
         }
-        public List<User> GetAll()
+        public async Task<List<User>> GetAllAsync()
         {
-            return _userRepository.GetList();
+            return await _userRepository.GetListAsync();
         }
-        public User GetOne(int id)
+        public async Task<User> GetOneAsync(int id)
         {
-           return _userRepository.GetByid(id);
+           return await _userRepository.GetByidAsync(id);
         }
-        public bool Add(User user)
+        public async Task<bool> AddAsync(User user)
         {
-            _userRepository.Post(user);
+            await _userRepository.PostAsync(user);
             return true;
         }
         public bool update(int id,User value)
@@ -34,9 +34,9 @@ namespace ZimmerArcitect.Service
             _userRepository.Put(id,value);
             return true;
         }
-        public void Remove(int id)
+        public async Task<bool>RemoveAsync(int id)
         {
-            _userRepository.Delete(id);
+          return await _userRepository.DeleteAsync(id);
            
         }
     }

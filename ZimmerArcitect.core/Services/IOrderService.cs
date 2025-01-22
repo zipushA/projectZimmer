@@ -10,15 +10,16 @@ namespace ZimmerArcitect.core.Services
 {
     public interface IOrderService
     {
-        public List<Order> GetAll();
+        public Task<List<Order>> GetAllAsync();
 
-        public Order GetOne(int id);
+        public Task<Order> GetOneAsync(int id);
 
-        public bool Add(Order order);
+        public Task<bool> AddAsync(Order order);
 
         public bool update(int id, Order value);
 
-        public void Remove(int id);
+        public Task<bool> RemoveAsync(int id);
        
+
     }
 }

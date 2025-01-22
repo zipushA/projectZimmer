@@ -9,10 +9,15 @@ namespace ZimmerArcitect.core.Repositories
 {
     public interface IUserRepository
     {
-         List<User> GetList();
-         User GetByid(int id);
-         bool Post(User value);
-        bool Put(int id, User value);
-        void Delete(int id);
+        public Task<List<User>> GetListAsync();
+
+        public Task<User> GetByidAsync(int id);
+
+        public Task<bool> PostAsync(User value);
+
+        public bool Put(int id, User value);
+
+        public Task<bool> DeleteAsync(int id);
+        
     }
 }

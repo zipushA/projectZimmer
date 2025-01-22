@@ -9,11 +9,14 @@ namespace ZimmerArcitect.core.Repositories
 {
     public interface IOwnerRepository
     {
-        IEnumerable<Owner> Get();
-         Owner GetById(int id);
-        bool Post(Owner owner);
-         bool Put(int id, Owner value);
-         void Delete(int id);
+        public Task<IEnumerable<Owner>> GetAsync();
+        public Task<Owner> GetByIdAsync(int id);
+
+        public Task<bool> PostAsync(Owner owner);
+        public bool Put(int id, Owner value);
+
+        public Task<bool> DeleteAsync(int id);
         
+
     }
 }

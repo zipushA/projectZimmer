@@ -11,15 +11,15 @@ namespace ZimmerArcitect.core.Services
 {
     public interface IZimmerService
     {
-        public IEnumerable<DtoZimmer> GetAll();
+        public Task<IEnumerable<DtoZimmer>> GetAllAsync();
 
-        public DtoZimmer GetOne(int id);
+        public Task<DtoZimmer> GetOneAsync(int id);
 
-        public bool Add(DtoZimmer zimmer);
+        public Task<bool> AddAsync(DtoZimmer zimmer);
 
-        public bool update(int id, DtoZimmer value)
-        ;
-        public void Remove(int id);
-        
+        public bool update(int id, DtoZimmer value);
+
+        public Task<bool> RemoveAsync(int id);
+       
     }
 }

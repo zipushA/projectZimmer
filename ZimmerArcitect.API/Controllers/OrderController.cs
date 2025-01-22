@@ -17,23 +17,23 @@ namespace ZimmerArcitect.API.Controllers
         }
         // GET: api/<OrderController>
         [HttpGet]
-        public IEnumerable<Order> Get()
+        public async Task< IEnumerable<Order>> Get()
         {
-            return _orderService.GetAll();
+            return await _orderService.GetAllAsync();
         }
 
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
-        public Order Get(int id)
+        public async Task< Order> Get(int id)
         {
-            return _orderService.GetOne(id);
+            return await _orderService.GetOneAsync(id);
         }
 
         // POST api/<OrderController>
         [HttpPost]
-        public bool Post([FromBody]Order value)
+        public async Task<bool> Post([FromBody]Order value)
         {
-            _orderService.Add(value);
+            await _orderService.AddAsync(value);
             return true;
         }
 
@@ -47,9 +47,9 @@ namespace ZimmerArcitect.API.Controllers
 
         // DELETE api/<OrderController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            _orderService.Remove(id);
+           return await _orderService.RemoveAsync(id);
            
         }
     }

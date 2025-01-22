@@ -21,9 +21,9 @@ namespace ZimmerArcitect.Service
             _ownerRepository = ownerRepository;
             _mapper = mapper;
         }
-        public IEnumerable<DtoOwnerGet> GetAll()
+        public async Task<IEnumerable<DtoOwnerGet>> GetAllSaync()
         {
-            var list = _ownerRepository.Get();
+            var list =await _ownerRepository.GetAsync();
             var listDto = new List<DtoOwnerGet>();
             foreach (var owner in list)
             {
@@ -31,15 +31,16 @@ namespace ZimmerArcitect.Service
             }
             return listDto;
         }
-        public DtoOwnerGet GetOne(int id)
+        public async Task<DtoOwnerGet> GetOneAsync(int id)
         {
-            return _mapper.Map<DtoOwnerGet>(_ownerRepository.GetById(id));
+            var owner = await _ownerRepository.GetByIdAsync(id);
+            return _mapper.Map<DtoOwnerGet>(owner);
             
         }
-        public bool Add(DtoOwnerPost owner)
+        public async Task<bool> AddAsync(DtoOwnerPost owner)
         {
             var dto = _mapper.Map<Owner>(owner);
-            _ownerRepository.Post(dto);
+            await _ownerRepository.PostAsync(dto);
             return true;
         }
         public bool update(int id, DtoOwnerPost value)
@@ -48,9 +49,9 @@ namespace ZimmerArcitect.Service
             _ownerRepository.Put(id, dto);
             return true;
         }
-        public void Remove(int id)
+        public async Task<bool> RemoveAsync(int id)
         {
-            _ownerRepository.Delete(id);
+            return await _ownerRepository.DeleteAsync(id);
            
         }
     }

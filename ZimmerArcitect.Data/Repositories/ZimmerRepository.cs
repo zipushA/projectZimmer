@@ -13,24 +13,45 @@ namespace ZimmerArcitect.Data.Repositories
     {
         private readonly DataContext _context;
         public ZimmerRepository(DataContext context) {  _context = context; }
-        public IEnumerable<Zimmer> Get()
+        public async Task<IEnumerable<Zimmer>> GetAsync()
         {
-            return _context.DataZimmers.Include(c => c.cleaner).Include(o => o.owner);
+            return await _context.DataZimmers
+                .Include(c => c.cleaner)
+                .Include(o => o.owner)
+                .ToListAsync(); // המתן לרשימה של Zimmer
         }
 
-        
-        public Zimmer GetById(int id)
+
+        public async Task< Zimmer> GetByIdAsync(int id)
         {
-            return _context.DataZimmers.FirstOrDefault(x => x.Id == id);
+            return await _context.DataZimmers.FirstOrDefaultAsync(x => x.Id == id);
 
         }
 
      
-        public bool Post( Zimmer value)
+        public async Task< bool> PostAsync( Zimmer value)
         {
-            _context.DataZimmers.Add(value);
-            _context.SaveChanges();
+            // בדוק אם ה-ownerId קיים בטבלת DataOwners
+            var ownerExists = await _context.DataOwners.AnyAsync(o => o.Id == value.OwnerId);
+            if (!ownerExists)
+            {
+                throw new Exception("The specified owner does not exist.");
+            }
+
+            // בדוק אם ה-cleanerId קיים בטבלת DataCleaners
+            var cleanerExists = await _context.DataCleaners.AnyAsync(c => c.Id == value.CleanerId);
+            if (!cleanerExists)
+            {
+                throw new Exception("The specified cleaner does not exist.");
+            }
+
+            // הוסף את הרשומה לטבלת DataZimmers
+            await _context.DataZimmers.AddAsync(value);
+            await _context.SaveChangesAsync();
             return true;
+            //_context.DataZimmers.Add(value);
+            //await _context.SaveChangesAsync();
+            //return true;
         }
         public bool Put(int id,  Zimmer value)
         {
@@ -45,14 +66,16 @@ namespace ZimmerArcitect.Data.Repositories
         }
 
       
-        public void Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var x = GetById(id);
+            var x =await GetByIdAsync(id);
             if (x != null)
             {
                 _context.Remove(x);
+                await _context.SaveChangesAsync();
+                return true;
             }
-            _context.SaveChanges();
+            return false;
         }
     }
 }

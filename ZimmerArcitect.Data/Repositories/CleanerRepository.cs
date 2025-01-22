@@ -11,52 +11,53 @@ namespace ZimmerArcitect.Data.Repositories
 {
     public class CleanerRepository:ICleanerRepository
     {
-        private readonly DataContext _context;
+       private readonly DataContext _context;
        public CleanerRepository(DataContext context)
         {
             _context = context;
         }
-        public IEnumerable<Cleaner> Get()
+        public async Task<IEnumerable<Cleaner>> GetAsync()
         {
-            return _context.DataCleaners.Include(z=>z.Zimmers);
+            return await _context.DataCleaners.Include(z=>z.Zimmers).ToListAsync();
         }
-        public Cleaner GetById(int id)
+        public async Task<Cleaner> GetByIdAsync(int id)
         {
-           return _context.DataCleaners.FirstOrDefault(x => x.Id == id);
-           
+           return await _context.DataCleaners.FirstOrDefaultAsync(x => x.Id == id);           
         }
 
         
-        public bool Post(Cleaner value)
+        public async Task< bool> PostAsync(Cleaner value)
         {
             _context.DataCleaners.Add(value);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
 
        
-        public bool Put(int id,  Cleaner value)
+        public async Task<bool> PutAsync(int id,  Cleaner value)
         {
-            int index = _context.DataCleaners.ToList().FindIndex(x => x.Id == id);
+
+            var dataCleanersList = _context.DataCleaners.ToList();
+            int index = dataCleanersList.FindIndex(x => x.Id == id);
             if (index != -1)
             {
-                _context.DataCleaners.ToList()[index] = value;//new Cleaner(id, value);
-                _context.SaveChanges();
+                dataCleanersList[index] = value;
+                _context.DataCleaners.Update(dataCleanersList[index]);
+                await _context.SaveChangesAsync();
                 return true;
             }
             return false;
         }
-
-       
-        public void Delete(int id)
+        public async Task <bool> DeleteAsync(int id)
         {
-            var x=GetById(id);
+            var x = await GetByIdAsync(id); // ודא שאתה משתמש ב-await
             if (x != null)
             {
                 _context.Remove(x);
+                await _context.SaveChangesAsync(); // שומר את השינויים
+                return true;
             }
-            _context.SaveChanges();
-            
-        }
+            return false;
+        }  
     }
 }

@@ -11,15 +11,15 @@ namespace ZimmerArcitect.core.Services
 {
     public interface IClenerService
     {
-        public IEnumerable<DtoCleanersGet> GetAll();
+        public Task<IEnumerable<DtoCleanersGet>> GetAllAsync();
+        
+        public Task<DtoCleanersGet> GetOneAsync(int id);
 
-        public DtoCleanersGet GetOne(int id);
+        public Task<bool> AddAsync(DtoCleanersPost cleaner);
 
-        public bool Add(DtoCleanersPost cleaner)
-        ;
-        public bool update(int id, DtoCleanersPost value);
+        public Task<bool> updateAsync(int id, DtoCleanersPost value);
 
-        public void Remove(int id)
-        ;
+        public Task<bool> RemoveAsync(int id);
+       
     }
 }

@@ -9,15 +9,12 @@ namespace ZimmerArcitect.core.Repositories
 {
     public interface ICleanerRepository
     {
-        public IEnumerable<Cleaner> Get();
-        
-        public Cleaner GetById(int id);
-        
+        public Task<IEnumerable<Cleaner>> GetAsync();
 
-        public bool Post(Cleaner value);
+        public Task<Cleaner> GetByIdAsync(int id);
+        public Task<bool> PostAsync(Cleaner value);
 
-        public bool Put(int id, Cleaner value);
-        public void Delete(int id);
-        
+        public Task<bool> PutAsync(int id, Cleaner value);
+        public Task<bool> DeleteAsync(int id);
     }
 }

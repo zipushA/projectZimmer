@@ -16,19 +16,19 @@ namespace ZimmerArcitect.Data.Repositories
         {
             _context = context;
         }
-        public IEnumerable<Owner> Get()
+        public async  Task< IEnumerable<Owner>> GetAsync()
         {
-            return _context.DataOwners.Include(z => z.zimmers);
+            return await _context.DataOwners.Include(z => z.zimmers).ToListAsync();
         }
-        public Owner GetById(int id)
+        public async Task<Owner> GetByIdAsync(int id)
         {
-            return _context.DataOwners.ToList().FirstOrDefault(x => x.Id == id);
+            return await  _context.DataOwners.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public bool Post(Owner owner)
+        public async Task<bool >PostAsync(Owner owner)
         {
 
             _context.DataOwners.Add(owner);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
         public bool Put(int id, Owner value)
@@ -41,14 +41,16 @@ namespace ZimmerArcitect.Data.Repositories
             }
             return false;
         }
-        public void Delete(int id)
+        public async Task<bool>DeleteAsync(int id)
         {
-            var x = GetById(id);
+            var x =await GetByIdAsync(id);
             if (x != null)
             {
                 _context.Remove(x);
+                await _context.SaveChangesAsync();
+                return true;
             }
-            _context.SaveChanges();
+            return false;
         }
 
     }

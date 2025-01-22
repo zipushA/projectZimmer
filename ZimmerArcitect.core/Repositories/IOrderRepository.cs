@@ -9,15 +9,18 @@ namespace ZimmerArcitect.core.Repositories
 {
     public interface IOrderRepository
     {
-        List<Order> Get();
-
-       Order GetById(int id);
-
-        bool Post(Order order);
-
-         bool Put(int id, Order value);
-         void Delete(int id);
-         
+        public Task<List<Order>> GetAsync();
+       
+        public  Task<Order> GetByIdAsync(int id);
+       
+        public  Task<bool> PostAsync(Order order);
         
+        public bool Put(int id, Order value);
+        
+        public  Task<bool> DeleteAsync(int id);
+       
+     }
+
+
     }
-}
+

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,21 +17,21 @@ namespace ZimmerArcitect.Data.Repositories
             _context = context;
         }
 
-        public List<User> GetList()
+        public async Task< List<User>> GetListAsync()
         {
-            return _context.DataUser.ToList();
+            return await _context.DataUser.ToListAsync();
         }
-        public User GetByid(int id)
+        public async Task<User >GetByidAsync(int id)
         {
-            return _context.DataUser.ToList().FirstOrDefault(x => x.Id == id);
+            return await _context.DataUser.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public bool Post(User value)
+        public async Task< bool> PostAsync(User value)
         {
             _context.DataUser.Add(value);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
-        public bool Put(int id, User value)
+        public  bool Put(int id, User value)
         {
             int index = _context.DataUser.ToList().FindIndex(x => x.Id == id);
             if (index != -1)
@@ -40,14 +41,17 @@ namespace ZimmerArcitect.Data.Repositories
             }
             return false;
         }
-        public void Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var x = GetByid(id);
+            var x = await GetByidAsync(id);
             if (x != null)
             {
                 _context.Remove(x);
+                await _context.SaveChangesAsync();
+                return true;
             }
-            _context.SaveChanges();
+            return false;
+           
         }
     }
 }

@@ -20,9 +20,9 @@ namespace ZimmerArcitect.Service
             _cleanerRepository = cleanerRepository;
             _mapper = mapper;
         }
-        public IEnumerable<DtoCleanersGet> GetAll()
+        public async Task< IEnumerable<DtoCleanersGet>> GetAllAsync()
         {
-            var list = _cleanerRepository.Get();
+            var list =await _cleanerRepository.GetAsync();
             var listDto = new List<DtoCleanersGet>();
             foreach (var cleaner in list)
             {
@@ -30,25 +30,29 @@ namespace ZimmerArcitect.Service
             }
             return listDto;
         }
-        public DtoCleanersGet GetOne(int id)
+        public async Task<DtoCleanersGet> GetOneAsync(int id)
         {
-            return _mapper.Map<DtoCleanersGet>(_cleanerRepository.GetById(id));
+
+            var cleaner = await _cleanerRepository.GetByIdAsync(id); // הוספת await
+            return _mapper.Map<DtoCleanersGet>(cleaner); // מיפוי ל-DTO
+            //return await _mapper.Map<DtoCleanersGet>(_cleanerRepository.GetByIdAsync(id));
         }
-        public bool Add(DtoCleanersPost cleaner)
+        public async Task<bool> AddAsync(DtoCleanersPost cleaner)
         {
             var dto = _mapper.Map<Cleaner>(cleaner);
-            _cleanerRepository.Post(dto);
+            await _cleanerRepository.PostAsync(dto);
             return true;
         }
-        public bool update(int id, DtoCleanersPost value)
+        public async Task<bool> updateAsync(int id, DtoCleanersPost value)
         {
             var dto = _mapper.Map<Cleaner>(value);
-            _cleanerRepository.Put(id, dto);
+           await _cleanerRepository.PutAsync(id, dto);
             return true;
         }
-        public void Remove(int id)
+        public async Task<bool> RemoveAsync(int id)
         {
-            _cleanerRepository.Delete(id);
+           await  _cleanerRepository.DeleteAsync(id);
+            return true;
             
         }
     }

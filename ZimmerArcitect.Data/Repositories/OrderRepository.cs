@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ZimmerArcitect.core.Models;
@@ -15,19 +17,22 @@ namespace ZimmerArcitect.Data.Repositories
         {
             _context = context;
         }
-        public List<Order> Get()
+        public async Task<List<Order>> GetAsync()
         {
-            return _context.DataOrders.ToList();
+
+            return await _context.DataOrders.ToListAsync();
+
         }
-        public Order GetById(int id)
+        public async Task< Order> GetByIdAsync(int id)
         {
-            return _context.DataOrders.ToList().FirstOrDefault(x => x.Id == id);
+            return await _context.DataOrders.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public bool Post(Order order)
+        public async Task< bool> PostAsync(Order order)
         {
             _context.DataOrders.Add(order);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
             return true;
+           
         }
         public bool Put(int id, Order value)
         {
@@ -39,14 +44,18 @@ namespace ZimmerArcitect.Data.Repositories
             }
             return false;
         }
-        public void Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var x = GetById(id);
-            if (x != null)
+            var order = await _context.DataOrders.FindAsync(id);
+            if (order == null)
             {
-                _context.Remove(x);
+                return false; // אם לא נמצא אובייקט, מחזיר false
             }
-            _context.SaveChanges();
+
+            // מוחק את האובייקט
+            _context.DataOrders.Remove(order);
+            await _context.SaveChangesAsync(); // שומר את השינויים
+            return true;
         }
 
     }

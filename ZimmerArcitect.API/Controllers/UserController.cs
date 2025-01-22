@@ -19,23 +19,23 @@ namespace ZimmerArcitect.API.Controllers
 
         // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<User> Get()
+        public async Task< IEnumerable<User>> Get()
         {
-            return _userService.GetAll();
+            return await _userService.GetAllAsync();
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public User Get(int id)
+        public async Task<User> Get(int id)
         {
-            return _userService.GetOne(id);
+            return await _userService.GetOneAsync(id);
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public bool Post([FromBody] User value)
+        public async Task<bool> Post([FromBody] User value)
         {
-            _userService.Add(value);
+            await _userService.AddAsync(value);
             return true;
         }
 
@@ -48,9 +48,9 @@ namespace ZimmerArcitect.API.Controllers
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            _userService.Remove(id);
+          return await _userService.RemoveAsync(id);
         }
     }
 }

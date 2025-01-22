@@ -19,39 +19,39 @@ namespace ZimmerArcitect.API.Controllers
 
         // GET: api/<CleanerController>
         [HttpGet]
-        public IEnumerable<DtoCleanersGet> Get()
+        public async Task<IEnumerable<DtoCleanersGet>> Get()
         {
-            return _clenerService.GetAll();
+            return await _clenerService.GetAllAsync();
         }
 
         // GET api/<CleanerController>/5
         [HttpGet("{id}")]
-        public DtoCleanersGet Get(int id)
+        public async Task<DtoCleanersGet >Get(int id)
         {
-            return _clenerService.GetOne(id);
+            return await _clenerService.GetOneAsync(id);
         }
 
         // POST api/<CleanerController>
         [HttpPost]
-        public bool Post([FromBody] DtoCleanersPost value)
+        public async Task<bool> Post([FromBody] DtoCleanersPost value)
         {
-            _clenerService.Add(value);
+           await _clenerService.AddAsync(value);
             return true;
         }
 
         // PUT api/<CleanerController>/5
         [HttpPut("{id}")]
-        public bool Put(int id, [FromBody] DtoCleanersPost value)
+        public async Task<bool> Put(int id, [FromBody] DtoCleanersPost value)
         {
-            _clenerService.update(id, value);
+            await _clenerService.updateAsync(id, value);
             return true;
         }
 
         // DELETE api/<CleanerController>/5
         [HttpDelete("{id}")]
-        public bool Delete(int id)
+        public async Task< bool> Delete(int id)
         {
-            _clenerService.Remove(id);
+            await _clenerService.RemoveAsync(id);
             return true;
         }
 

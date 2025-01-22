@@ -11,19 +11,15 @@ namespace ZimmerArcitect.core.Services
 {
     public interface IOwnerService
     {
-        public IEnumerable<DtoOwnerGet> GetAll();
+        public Task<IEnumerable<DtoOwnerGet>> GetAllSaync();
 
+        public Task<DtoOwnerGet> GetOneAsync(int id);
 
-        public DtoOwnerGet GetOne(int id);
-
-
-        public bool Add(DtoOwnerPost owner);
-
+        public Task<bool> AddAsync(DtoOwnerPost owner);
 
         public bool update(int id, DtoOwnerPost value);
 
+        public Task<bool> RemoveAsync(int id);
 
-        public void Remove(int id);
-        
     }
 }

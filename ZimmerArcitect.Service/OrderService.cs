@@ -17,17 +17,17 @@ namespace ZimmerArcitect.Service
         {
             _orderRepository = orderRepository;
         }
-        public List<Order> GetAll()
+        public async Task<List<Order>> GetAllAsync()
         {
-            return _orderRepository.Get();
+            return await _orderRepository.GetAsync();
         }
-        public Order GetOne(int id)
+        public async Task< Order> GetOneAsync(int id)
         {
-            return _orderRepository.GetById(id);
+            return await _orderRepository.GetByIdAsync(id);
         }
-        public bool Add(Order order)
+        public async Task<bool> AddAsync(Order order)
         {
-            _orderRepository.Post(order);
+           await _orderRepository.PostAsync(order);
             return true;
         }
         public bool update(int id,Order value)
@@ -35,9 +35,9 @@ namespace ZimmerArcitect.Service
             _orderRepository.Put(id, value);
             return true;
         }
-        public void Remove(int id)
+        public async Task<bool> RemoveAsync(int id)
         {
-            _orderRepository.Delete(id);
+            return await _orderRepository.DeleteAsync(id);
         }
     }
 }

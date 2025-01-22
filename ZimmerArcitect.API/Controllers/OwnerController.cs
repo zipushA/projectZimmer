@@ -19,23 +19,23 @@ namespace ZimmerArcitect.API.Controllers
 
         // GET: api/<OwnerController>
         [HttpGet]
-        public IEnumerable<DtoOwnerGet> Get()
+        public async Task<IEnumerable<DtoOwnerGet>> Get()
         {
-            return _ownerService.GetAll();
+            return await _ownerService.GetAllSaync();
         }
 
         // GET api/<OwnerController>/5
         [HttpGet("{id}")]
-        public DtoOwnerGet Get(int id)
+        public async Task<DtoOwnerGet> Get(int id)
         {
-            return _ownerService.GetOne(id);
+            return await _ownerService.GetOneAsync(id);
         }
 
         // POST api/<OwnerController>
         [HttpPost]
-        public bool Post([FromBody] DtoOwnerPost value)
+        public async Task<bool> Post([FromBody] DtoOwnerPost value)
         {
-            _ownerService.Add(value);
+            await _ownerService.AddAsync(value);
             return true;
         }
 
@@ -49,9 +49,9 @@ namespace ZimmerArcitect.API.Controllers
 
         // DELETE api/<OwnerController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            _ownerService.Remove(id);
+           return await _ownerService.RemoveAsync(id);
         }
     }
 }

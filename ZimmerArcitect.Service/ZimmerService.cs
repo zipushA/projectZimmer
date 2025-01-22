@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,9 @@ namespace ZimmerArcitect.Service
             _ZimmerRepository = zimmerRepository;
             _mapper = mapper;
         }
-        public IEnumerable<DtoZimmer> GetAll()
+        public async Task<IEnumerable<DtoZimmer>> GetAllAsync()
         {
-            var list = _ZimmerRepository.Get();
+            var list =await _ZimmerRepository.GetAsync();
             var listDto = new List<DtoZimmer>();
             foreach (var owner in list)
             {
@@ -31,15 +32,22 @@ namespace ZimmerArcitect.Service
             }
             return listDto;
         }
-        public DtoZimmer GetOne(int id)
+        public async Task<DtoZimmer> GetOneAsync(int id)
         {
-            return _mapper.Map<DtoZimmer>(_ZimmerRepository.GetById(id));
+            var zimmer = await _ZimmerRepository.GetByIdAsync(id);
+            if (zimmer == null)
+            {
+                throw new Exception("Zimmer not found.");
+            }
+            return _mapper.Map<DtoZimmer>(zimmer);
+            //var zimmer = await _ZimmerRepository.GetByIdAsync(id); // הנח ש-GetByIdAsync קיימת
+            //return _mapper.Map<DtoZimmer>(zimmer);
 
         }
-        public bool Add(DtoZimmer zimmer)
+        public async Task< bool> AddAsync(DtoZimmer zimmer)
         {
             var dto = _mapper.Map<Zimmer>(zimmer);
-            _ZimmerRepository.Post(dto);
+            await _ZimmerRepository.PostAsync(dto);
             return true;
         }
         public bool update(int id, DtoZimmer value)
@@ -48,9 +56,9 @@ namespace ZimmerArcitect.Service
             _ZimmerRepository.Put(id, dto);
             return true;
         }
-        public void Remove(int id)
+        public async Task<bool> RemoveAsync(int id)
         {
-            _ZimmerRepository.Delete(id);
+           return await _ZimmerRepository.DeleteAsync(id);
            
         }
     }
