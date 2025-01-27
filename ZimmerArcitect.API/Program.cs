@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using ZimmerArcitect.API.Middleware;
 using ZimmerArcitect.core;
 using ZimmerArcitect.core.Models;
 using ZimmerArcitect.core.Repositories;
@@ -48,6 +49,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseMiddleware<ShabbatMiddleware>();
 app.MapControllers();
 
 app.Run();
