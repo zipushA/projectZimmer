@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ZimmerArcitect.core.Models;
 using ZimmerArcitect.core.Services;
 using ZimmerArcitect.Service;
@@ -9,6 +10,7 @@ namespace ZimmerArcitect.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;

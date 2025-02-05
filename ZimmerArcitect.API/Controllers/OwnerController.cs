@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ZimmerArcitect.core.DTO;
 using ZimmerArcitect.core.Models;
 using ZimmerArcitect.core.Services;
@@ -9,6 +10,7 @@ namespace ZimmerArcitect.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OwnerController : ControllerBase
     {
         private readonly IOwnerService _ownerService;
